@@ -1,0 +1,9 @@
+.clone-actions {
+    padding: 10px;
+    text-align: right;
+    border-top: 1px solid #ddd;
+}
+
+.clone-actions + .misc-pub-section {
+    border-top: 1px solid #ddd;
+}
