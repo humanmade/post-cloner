@@ -2,7 +2,7 @@
 /**
  * Handles cloned post URL cleaning.
  *
- * @package The Sun Post Cloner.
+ * @package HM Post Cloner.
  */
 
 namespace Post_Cloner;

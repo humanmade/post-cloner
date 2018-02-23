@@ -2,7 +2,7 @@
 /**
  * Class to load hooks and set/get base plugin definitions.
  *
- * @package The Sun Post Cloner.
+ * @package HM Post Cloner.
  */
 
 namespace Post_Cloner;

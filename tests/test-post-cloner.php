@@ -1,13 +1,13 @@
 <?php
 /**
- * Tests for The Sun Post Cloner.
+ * Tests for HM Post Cloner.
  *
- * @package The Sun Post Cloner.
+ * @package HM Post Cloner.
  * @author Human Made Limited
  */
 
 /**
- * Class TheSunTestPostCloner
+ * Class HMTestPostCloner
  */
 class TestPostCloner extends PostCloner_TestCase {
 	/**
@@ -62,7 +62,7 @@ class TestPostCloner extends PostCloner_TestCase {
 	/**
 	 * Instance of the class we are testing.
 	 *
-	 * @var TheSun_Post_Cloner
+	 * @var HM_Post_Cloner
 	 */
 	private $instance = null;
 

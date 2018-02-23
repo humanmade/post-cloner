@@ -1,13 +1,13 @@
 <?php
 /**
- * Tests for The Sun Post Cloner.
+ * Tests for HM Post Cloner.
  *
- * @package The Sun Post Cloner.
+ * @package HM Post Cloner.
  * @author Human Made Limited
  */
 
 /**
- * Class TheSunTestPostCloner
+ * Class HMTestPostCloner
  */
 class TestPostClonerUtilities extends PostCloner_TestCase {
 

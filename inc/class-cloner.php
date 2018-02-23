@@ -2,7 +2,7 @@
 /**
  * Handles cloning of a post
  *
- * @package The Sun Post Cloner.
+ * @package HM Post Cloner.
  */
 
 namespace Post_Cloner;

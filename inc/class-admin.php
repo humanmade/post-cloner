@@ -2,7 +2,7 @@
 /**
  * Handles the admin UI and redirection of cloning a post.
  *
- * @package The Sun Post Cloner.
+ * @package HM Post Cloner.
  */
 
 namespace Post_Cloner;

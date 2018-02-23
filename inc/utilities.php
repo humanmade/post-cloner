@@ -2,7 +2,7 @@
 /**
  * Utility methods related to post cloning.
  *
- * @package The Sun Post Cloner.
+ * @package HM Post Cloner.
  */
 
 namespace Post_Cloner;

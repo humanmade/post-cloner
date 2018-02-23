@@ -2,7 +2,7 @@
 /**
  * Bootstrap and load test files.
  *
- * @package TheSun_Redirector_Plugin
+ * @package HM Post Cloner
  * @author Human Made Limited
  */
 
@@ -28,7 +28,7 @@ tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 require $_tests_dir . '/includes/bootstrap.php';
 
 /**
- * Class TheSunPostCloner_TestCase
+ * Class HMPostCloner_TestCase
  */
 class PostCloner_TestCase extends WP_UnitTestCase {
 	/**
