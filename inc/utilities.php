@@ -30,12 +30,12 @@ function is_post_clonable( $post ) {
 	$clonable = ( is_post_type_clonable( $type ) && is_post_status_clonable( $status ) );
 
 	/**
-	 * Override clonable status if desired.
+	 * Override clonable status of a single post if desired.
 	 *
 	 * @param bool $clonable Current clonable status.
 	 * @param int $post_id ID of post that we're checking.
 	 */
-	return apply_filters( 'post_cloner_clonable_post_types', $clonable, $post_id );
+	return apply_filters( 'post_cloner_override_single_post', $clonable, $post_id );
 }
 
 /**
