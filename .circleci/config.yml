@@ -14,35 +14,32 @@ jobs:
     steps:
       - checkout
 
-      # Use cURL to fetch WP-CLI
-      - run:
-          name: Fetch WP CLI
-          command: |
-            curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-
-      # Make sure WP-CLI is executable
-      - run:
-          name: Ensure WP CLI is executable
-          command: |
-            chmod +x wp-cli.phar
-
       # Download WordPress into `wordpress` directory
       - run:
           name: Download WordPress
           command: |
             ./wp-cli.phar core download --allow-root --path=wordpress
 
+      # Use cURL to fetch WP-CLI
+      - run:
+          name: Download WP CLI
+          command: |
+            curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+            chmod +x wp-cli.phar
+
       # Setup phpunit
       - run:
           name: Setup PHPunit
           command: |
-            wget https://phar.phpunit.de/phpunit.phar && chmod +x phpunit.phar && mv phpunit.phar /home/ubuntu/.phpenv/shims/phpunit
+            wget https://phar.phpunit.de/phpunit.phar
+            chmod +x phpunit.phar
+            mv phpunit.phar /home/circleci/.phpenv/shims/phpunit
 
       # Move plugin into plugins dir
       - run:
-          name: Move plugin into the appropriate folder
+          name: Move plugin into the `plugins` folder
           command: |
-            mv /post-cloner /wordpress/wp-content/plugins/post-cloner;
+            mv /home/circleci/project/ /wordpress/wp-content/plugins/post-cloner;
 
       # And use WP-CLI to activate it
       - run:
@@ -60,4 +57,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            cd /wordpress/wp-content/plugins/post-cloner/tests; cd ..; pwd; ls; phpunit
+            cd /wordpress/wp-content/plugins/post-cloner;
+            pwd;
+            ls;
+            phpunit
