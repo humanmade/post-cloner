@@ -31,9 +31,7 @@ jobs:
       - run:
           name: Setup PHPunit
           command: |
-            wget https://phar.phpunit.de/phpunit.phar
-            chmod +x phpunit.phar
-            mv phpunit.phar /home/circleci/.phpenv/shims/phpunit
+            composer install
 
       # Move plugin into plugins dir
       - run:

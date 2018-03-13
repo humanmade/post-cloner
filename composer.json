@@ -1,0 +1,13 @@
+{
+    "name": "WordPress Post Cloner",
+    "type": "wordpress-plugin",
+    "keywords": [ "wordpress", "plugin", "post-cloner" ],
+    "homepage": "https://github.com/humanmade/post-cloner/",
+    "require-dev": {
+        "phpunit/phpunit": "5.7.*"
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "composer/installers": "v1.0.6"
+    }
+}
