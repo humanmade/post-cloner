@@ -14,18 +14,18 @@ jobs:
     steps:
       - checkout
 
-      # Download WordPress into `wordpress` directory
-      - run:
-          name: Download WordPress
-          command: |
-            ./wp-cli.phar core download --allow-root --path=wordpress
-
       # Use cURL to fetch WP-CLI
       - run:
           name: Download WP CLI
           command: |
             curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
             chmod +x wp-cli.phar
+
+      # Download WordPress into `wordpress` directory
+      - run:
+          name: Download WordPress
+          command: |
+            ./wp-cli.phar core download --allow-root --path=wordpress
 
       # Setup phpunit
       - run:
