@@ -16,40 +16,48 @@ jobs:
 
       # Use cURL to fetch WP-CLI
       - run:
-        name: Fetch WP CLIS
-        command: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+        name: Fetch WP CLI
+        command: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
       # Make sure WP-CLI is executable
       - run:
         name: Ensure WP CLI is executable
-        command: chmod +x wp-cli.phar
+        command: |
+          chmod +x wp-cli.phar
 
       # Download WordPress into `wordpress` directory
       - run:
         name: Download WordPress
-        command: ./wp-cli.phar core download --allow-root --path=wordpress
+        command: |
+          ./wp-cli.phar core download --allow-root --path=wordpress
 
       # Setup phpunit
       - run:
         name: Setup PHPunit
-        command: wget https://phar.phpunit.de/phpunit.phar && chmod +x phpunit.phar && mv phpunit.phar /home/ubuntu/.phpenv/shims/phpunit
+        command: |
+          wget https://phar.phpunit.de/phpunit.phar && chmod +x phpunit.phar && mv phpunit.phar /home/ubuntu/.phpenv/shims/phpunit
 
       # Move plugin into plugins dir
       - run:
         name: Move plugin into the appropriate folder
-        command: mv /post-cloner /wordpress/wp-content/plugins/post-cloner;
+        command: |
+          mv /post-cloner /wordpress/wp-content/plugins/post-cloner;
 
       # And use WP-CLI to activate it
       - run:
         name: Activate plugin with WP CLI
-        command: ./wp-cli.phar plugin activate post-cloner --path=wordpress
+        command: |
+          ./wp-cli.phar plugin activate post-cloner --path=wordpress
 
       # This is just for us to see that our plugin was actually installed and is active
       - run:
         name: Check active plugins
-        command: ./wp-cli.phar plugin list --path=wordpress
+        command: |
+          ./wp-cli.phar plugin list --path=wordpress
 
       # Test the sucker
       - run:
         name: Run tests
-        command: cd /wordpress/wp-content/plugins/post-cloner/tests; cd ..; pwd; ls; phpunit
+        command: |
+          cd /wordpress/wp-content/plugins/post-cloner/tests; cd ..; pwd; ls; phpunit
