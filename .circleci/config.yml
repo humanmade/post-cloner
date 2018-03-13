@@ -6,38 +6,50 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/php:7.0-apache-node-browsers
-        environment:
-          plugin_slug: post-cloner
-          plugin_dir: /wordpress/wp-content/plugins/$plugin_slug
-          plugin_tests_dir: /home/ubuntu/wordpress-develop/src/wp-content/plugins/$plugin_slug/tests
-
       - image: circleci/mysql:5.7
+        environment:
+          - MYSQL_USER=ubuntu
+          - MYSQL_DB=wordpress
 
     steps:
       - checkout
-      # No password is required for the MySQL user `ubuntu`
-      - run: mysql -u ubuntu -e "CREATE DATABASE wordpress"
 
       # Use cURL to fetch WP-CLI
-      - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+      - run:
+        name: Fetch WP CLIS
+        command: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
       # Make sure WP-CLI is executable
-      - run: chmod +x wp-cli.phar
+      - run:
+        name: Ensure WP CLI is executable
+        command: chmod +x wp-cli.phar
 
       # Download WordPress into `wordpress` directory
-      - run: ./wp-cli.phar core download --allow-root --path=wordpress
+      - run:
+        name: Download WordPress
+        command: ./wp-cli.phar core download --allow-root --path=wordpress
 
-      # move plugin into tests/src
-      - run: mv $plugin_loc $plugin_dir;
+      # Setup phpunit
+      - run:
+        name: Setup PHPunit
+        command: wget https://phar.phpunit.de/phpunit.phar && chmod +x phpunit.phar && mv phpunit.phar /home/ubuntu/.phpenv/shims/phpunit
+
+      # Move plugin into plugins dir
+      - run:
+        name: Move plugin into the appropriate folder
+        command: mv /post-cloner /wordpress/wp-content/plugins/post-cloner;
 
       # And use WP-CLI to activate it
-      - run: ./wp-cli.phar plugin activate $plugin_slug --path=wordpress
+      - run:
+        name: Activate plugin with WP CLI
+        command: ./wp-cli.phar plugin activate post-cloner --path=wordpress
 
-      # setup phpunit
-      - run: wget https://phar.phpunit.de/phpunit.phar && chmod +x phpunit.phar && mv phpunit.phar /home/ubuntu/.phpenv/shims/phpunit
+      # This is just for us to see that our plugin was actually installed and is active
+      - run:
+        name: Check active plugins
+        command: ./wp-cli.phar plugin list --path=wordpress
 
-      # This is just for us to see that the WP Pusher plugin was actually installed and is active
-      - run: ./wp-cli.phar plugin list --path=wordpress
-
-      # comment out the below line to run a code coverage report.
-      - run: cd $plugin_tests_dir; cd ..; pwd; ls; phpunit
+      # Test the sucker
+      - run:
+        name: Run tests
+        command: cd /wordpress/wp-content/plugins/post-cloner/tests; cd ..; pwd; ls; phpunit
