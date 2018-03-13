@@ -11,6 +11,8 @@ jobs:
           plugin_dir: /wordpress/wp-content/plugins/$plugin_slug
           plugin_tests_dir: /home/ubuntu/wordpress-develop/src/wp-content/plugins/$plugin_slug/tests
 
+      - image: circleci/mysql:5.7
+
     steps:
       - checkout
       # No password is required for the MySQL user `ubuntu`
