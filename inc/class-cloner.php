@@ -180,7 +180,7 @@ class Cloner {
 		// Loop through the meta items and update on our new post.
 		foreach ( $post_meta as $key => $values ) {
 			foreach ( $values as $value ) {
-				add_post_meta( $post_id, $key, maybe_unserialize( $value ) );
+				add_post_meta( $post_id, $key, $value );
 			}
 		}
 	}
