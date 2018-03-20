@@ -27,7 +27,7 @@ function _manually_load_plugin() {
 	require_once __DIR__ . '/../inc/utilities.php';
 }
 
-tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
+tests_add_filter( 'muplugins_loaded', __NAMESPACE__ . '\\_manually_load_plugin' );
 
 require $_tests_dir . '/includes/bootstrap.php';
 
@@ -44,7 +44,7 @@ class PostCloner_TestCase extends WP_UnitTestCase {
 	 *
 	 * @return mixed Method return.
 	 */
-	public function invokeMethod( &$object, $methodName, array $parameters = [] ) {
+	public static function invokeMethod( &$object, $methodName, array $parameters = [] ) {
 		$reflection = new \ReflectionClass( get_class( $object ) );
 		$method     = $reflection->getMethod( $methodName );
 		$method->setAccessible( true );
