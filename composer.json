@@ -1,0 +1,13 @@
+{
+  "name": "Post Cloner",
+  "type": "wordpress-plugin",
+  "license": "GPL V2",
+  "minimum-stability": "stable",
+  "config": {
+    "autoloader-suffix": "DontChange"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.7",
+    "humanmade/coding-standards": "dev-master"
+  }
+}
