@@ -6,6 +6,11 @@
  * @author Human Made Limited
  */
 
+namespace Post_Cloner_Tests;
+
+use Post_Cloner;
+use WP_UnitTest_Factory;
+
 /**
  * Class HMTestPostCloner
  */
@@ -32,13 +37,6 @@ class TestPostCloner extends PostCloner_TestCase {
 	private $post_data = [];
 
 	/**
-	 * Holds duplicated post IDs.
-	 *
-	 * @var array
-	 */
-	private $post_ids = [];
-
-	/**
 	 * Holds the test taxo terms.
 	 *
 	 * @var array
@@ -62,7 +60,7 @@ class TestPostCloner extends PostCloner_TestCase {
 	/**
 	 * Instance of the class we are testing.
 	 *
-	 * @var HM_Post_Cloner
+	 * @var Post_Cloner
 	 */
 	private $instance = null;
 
@@ -92,14 +90,14 @@ class TestPostCloner extends PostCloner_TestCase {
 
 		// Create a custom taxonomy.
 		register_taxonomy( 'my-custom-taxo', 'post' );
-		$this->term_ids = $factory->term->create_many( 3 , [
+		$this->term_ids = $factory->term->create_many( 3, [
 			'taxonomy' => 'my-custom-taxo',
 		] );
 
 		wp_set_object_terms( $this->post_id, $this->cats, 'category' );
 		wp_set_object_terms( $this->post_id, $this->term_ids, 'my-custom-taxo' );
 
-		// Create custom metadata
+		// Create custom metadata.
 		add_post_meta( $this->post_id, 'teaser_kicker', 'my kicker', true );
 		add_post_meta( $this->post_id, 'teaser_headline', 'a random headline', true );
 		add_post_meta( $this->post_id, 'image', 187, true );
@@ -109,7 +107,7 @@ class TestPostCloner extends PostCloner_TestCase {
 		$this->instance = new Post_Cloner\Cloner();
 
 		$old_data = Post_Cloner\clean_keys( $this->post_data, [ 'ID', 'guid' ] );
-		$this->post_ids[] = $this->copied_id = $this->invokeMethod( $this->instance, 'create_copy', [ $old_data ] );
+		$this->copied_id  = $this->invokeMethod( $this->instance, 'create_copy', [ $old_data ] );
 	}
 
 	/**
@@ -123,12 +121,12 @@ class TestPostCloner extends PostCloner_TestCase {
 	 * Verifies that the cloned post is an exact copy of the original.
 	 */
 	public function test_new_post_is_exact_copy() {
-		// Setup proper conditions to allow for cloning
+		// Setup proper conditions to allow for cloning.
 		set_current_screen( 'edit.php' );
 		wp_set_current_user( $this->editor_id );
 
 		// Clone post and fetch post data.
-		$this->post_ids[] = $new_post_id = $this->instance->clone_post( $this->post_id );
+		$new_post_id = $this->instance->clone_post( $this->post_id );
 		$new_post_info = get_post( $new_post_id );
 
 		// Test that the ID is different.

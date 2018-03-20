@@ -6,23 +6,46 @@
  * @author Human Made Limited
  */
 
+namespace Post_Cloner_Tests;
+
+use Post_Cloner;
+use WP_UnitTest_Factory;
+
 /**
  * Class HMTestPostCloner
  */
 class TestPostClonerUtilities extends PostCloner_TestCase {
 
+	/**
+	 * Editor user ID.
+	 *
+	 * @var int
+	 */
 	protected static $editor_id;
-	protected static $admin_id;
-	protected static $subscriber_id;
-	protected static $user_ids = [];
 
 	/**
-	 * Initialization.
+	 * Administrator user ID.
+	 *
+	 * @var int
 	 */
-	public static function wpSetUpBeforeClass( $factory ) {
-		self::$user_ids[] = self::$editor_id = $factory->user->create( array( 'role' => 'editor' ) );
-		self::$user_ids[] = self::$admin_id = $factory->user->create( array( 'role' => 'administrator' ) );
-		self::$user_ids[] = self::$subscriber_id = $factory->user->create( array( 'role' => 'subscriber' ) );
+	protected static $admin_id;
+
+	/**
+	 * Subscriber user ID.
+	 *
+	 * @var int
+	 */
+	protected static $subscriber_id;
+
+	/**
+	 * Setup data for the test suite.
+	 *
+	 * @param WP_UnitTest_Factory $factory WP factory for creating objects.
+	 */
+	public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+		self::$editor_id = $factory->user->create( [ 'role' => 'editor' ] );
+		self::$admin_id = $factory->user->create( [ 'role' => 'administrator' ] );
+		self::$subscriber_id = $factory->user->create( [ 'role' => 'subscriber' ] );
 	}
 
 	/**
@@ -55,7 +78,7 @@ class TestPostClonerUtilities extends PostCloner_TestCase {
 	 * Test can_user_clone().
 	 */
 	function test_can_user_clone() {
-		// User is logged out, should return false
+		// User is logged out, should return false.
 		$this->assertFalse( Post_Cloner\can_user_clone() );
 
 		// Set an admin user to logged in.
@@ -105,7 +128,13 @@ class TestPostClonerUtilities extends PostCloner_TestCase {
 		];
 
 		// Check that the keys we want gone have been removed.
-		$this->assertEquals( [ 'key' => '1', 'removed' => '4' ], Post_Cloner\clean_keys( $array, $keys_to_clean ) );
+		$this->assertEquals(
+			[
+				'key'     => '1',
+				'removed' => '4',
+			],
+			Post_Cloner\clean_keys( $array, $keys_to_clean )
+		);
 
 		// Check that we get the full array back if we pass in no keys to remove.
 		$this->assertEquals( $array, Post_Cloner\clean_keys( $array, [] ) );

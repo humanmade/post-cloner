@@ -6,6 +6,10 @@
  * @author Human Made Limited
  */
 
+namespace Post_Cloner_Tests;
+
+use WP_UnitTestCase;
+
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 if ( ! $_tests_dir ) {
 	$_tests_dir = '/tmp/wordpress-tests-lib';
@@ -34,13 +38,13 @@ class PostCloner_TestCase extends WP_UnitTestCase {
 	/**
 	 * Call protected/private method of a class.
 	 *
-	 * @param object &$object Instantiated object that we will run method on.
+	 * @param object $object     Instantiated object that we will run method on.
 	 * @param string $methodName Method name to call.
 	 * @param array  $parameters Array of parameters to pass into method.
 	 *
 	 * @return mixed Method return.
 	 */
-	public function invokeMethod( &$object, $methodName, array $parameters = array() ) {
+	public function invokeMethod( &$object, $methodName, array $parameters = [] ) {
 		$reflection = new \ReflectionClass( get_class( $object ) );
 		$method     = $reflection->getMethod( $methodName );
 		$method->setAccessible( true );
@@ -48,11 +52,19 @@ class PostCloner_TestCase extends WP_UnitTestCase {
 		return $method->invokeArgs( $object, $parameters );
 	}
 
-	public function invokeStaticMethod( &$object, $methodName, array $parameters = array() ) {
+	/**
+	 * Call static method non-statically.
+	 *
+	 * @param object $object     Instantiated object that we will run method on.
+	 * @param string $methodName Method name to call.
+	 * @param array  $parameters Array of parameters to pass into method.
+	 *
+	 * @return mixed
+	 */
+	public function invokeStaticMethod( &$object, $methodName, array $parameters = [] ) {
 		$reflection = new \ReflectionClass( get_class( $object ) );
 		$method     = $reflection->getMethod( $methodName );
 
 		return $method->invokeArgs( $object, $parameters );
 	}
 }
-

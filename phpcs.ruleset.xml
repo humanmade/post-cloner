@@ -3,6 +3,7 @@
     <!-- Ignored directories -->
     <exclude-pattern>/^.*/g</exclude-pattern>
     <exclude-pattern>assets/*</exclude-pattern>
+    <exclude-pattern>vendor/*</exclude-pattern>
 
     <!-- Use HM Coding Standards -->
     <rule ref="vendor/humanmade/coding-standards">
@@ -18,4 +19,15 @@
 
     <!-- Add VIP-specific rules -->
     <rule ref="WordPress-VIP" />
+
+    <!-- Ignore test file naming issues. -->
+    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <rule ref="HM.Files.ClassFileName.MismatchedName">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.NamingConventions.ValidVariableName.NotSnakeCase">
+        <exclude-pattern>tests/bootstrap.php</exclude-pattern>
+    </rule>
 </ruleset>
