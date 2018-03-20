@@ -18,14 +18,12 @@ namespace Post_Cloner;
  */
 function is_post_clonable( $post ) {
 	if ( is_int( $post ) ) {
-		$status  = get_post_status( $post );
-		$type    = get_post_type( $post );
-		$post_id = $post;
-	} else {
-		$status  = $post->post_status;
-		$type    = $post->post_type;
-		$post_id = $post->ID;
+		$post = get_post( $post );
 	}
+
+	$status  = $post->post_status;
+	$type    = $post->post_type;
+	$post_id = $post->ID;
 
 	$clonable = ( is_post_type_clonable( $type ) && is_post_status_clonable( $status ) );
 
