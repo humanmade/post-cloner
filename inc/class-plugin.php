@@ -59,6 +59,6 @@ final class Plugin {
 	 * @see load_plugin_textdomain
 	 */
 	public function load_textdomain() {
-	    load_plugin_textdomain( 'post-cloner', false, basename( dirname( $this->definitions->file ) ) . '/languages/' );
+		load_plugin_textdomain( 'post-cloner', false, basename( dirname( $this->definitions->file ) ) . '/languages/' );
 	}
 }

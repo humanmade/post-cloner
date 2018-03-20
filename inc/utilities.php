@@ -50,7 +50,7 @@ function is_post_type_clonable( $post_type ) {
 	 */
 	$types = apply_filters( 'post_cloner_clonable_post_types', [ 'post' ] );
 
-	return ( in_array( $post_type, $types ) );
+	return ( in_array( $post_type, $types, true ) );
 }
 
 /**
@@ -67,7 +67,7 @@ function is_post_status_clonable( $post_status ) {
 	 */
 	$statuses = apply_filters( 'post_cloner_clonable_statuses', [ 'publish', 'draft', 'pending' ] );
 
-	return ( in_array( $post_status, $statuses ) );
+	return ( in_array( $post_status, $statuses ), true );
 }
 
 /**

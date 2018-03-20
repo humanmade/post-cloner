@@ -74,24 +74,26 @@ class TestPostCloner extends PostCloner_TestCase {
 	public function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
 		// Create a test post.
 		$this->post_id = $factory->post->create(
-			array(
+			[
 				'post_author'  => get_current_user_id(),
 				'post_title'   => 'My test post',
 				'post_type'    => 'post',
 				'post_status'  => 'publish',
 				'post_content' => 'Monotonectally brand bleeding-edge total linkage before interactive imperatives. Monotonectally facilitate ethical methods of empowerment rather than high-quality quality vectors. Uniquely whiteboard backend relationships vis-a-vis 24/365.',
-				'post_excerpt' => 'short summary'
-			)
+				'post_excerpt' => 'short summary',
+			]
 		);
 
-		$this->editor_id = $factory->user->create( array( 'role' => 'editor' ) );
+		$this->editor_id = $factory->user->create( [
+			'role' => 'editor',
+		] );
 
 		$this->cats = $factory->category->create_many( 2 );
 
 		// Create a custom taxonomy.
 		register_taxonomy( 'my-custom-taxo', 'post' );
 		$this->term_ids = $factory->term->create_many( 3 , [
-			'taxonomy' => 'my-custom-taxo'
+			'taxonomy' => 'my-custom-taxo',
 		] );
 
 		wp_set_object_terms( $this->post_id, $this->cats, 'category' );
@@ -107,7 +109,7 @@ class TestPostCloner extends PostCloner_TestCase {
 		$this->instance = new Post_Cloner\Cloner();
 
 		$old_data = Post_Cloner\clean_keys( $this->post_data, [ 'ID', 'guid' ] );
-		$this->post_ids[] = $this->copied_id = $this->invokeMethod( $this->instance, 'create_copy', array( $old_data ) );
+		$this->post_ids[] = $this->copied_id = $this->invokeMethod( $this->instance, 'create_copy', [ $old_data ] );
 	}
 
 	/**
@@ -196,7 +198,7 @@ class TestPostCloner extends PostCloner_TestCase {
 	public function test_get_meta_data() {
 		$original_meta_data = get_post_meta( $this->post_id );
 
-		$meta_data_to_check = $this->invokeMethod( $this->instance, 'get_meta_data', array( $this->post_id ) );
+		$meta_data_to_check = $this->invokeMethod( $this->instance, 'get_meta_data', [ $this->post_id ] );
 
 		// Manually unset the fields that we expect to be missing.
 		unset( $original_meta_data['ID'] );
@@ -215,7 +217,7 @@ class TestPostCloner extends PostCloner_TestCase {
 			'category'       => $this->cats,
 		];
 
-		$taxonomies = $this->invokeMethod( $this->instance, 'get_taxonomies', array( $this->post_data ) );
+		$taxonomies = $this->invokeMethod( $this->instance, 'get_taxonomies', [ $this->post_data ] );
 
 		$this->assertEquals( $expected_data, $taxonomies );
 	}
@@ -236,7 +238,7 @@ class TestPostCloner extends PostCloner_TestCase {
 	 * Test copy_meta_data().
 	 */
 	public function test_copy_meta_data() {
-		$this->invokeMethod( $this->instance, 'copy_meta_data', array( $this->copied_id, get_post_meta( $this->post_id ) ) );
+		$this->invokeMethod( $this->instance, 'copy_meta_data', [ $this->copied_id, get_post_meta( $this->post_id ) ] );
 
 		// Check that the post metadata matches - minus the post_cloned item we're adding.
 		$this->assertEquals(
@@ -249,8 +251,8 @@ class TestPostCloner extends PostCloner_TestCase {
 	 * Test copy_taxonomy_relationships().
 	 */
 	public function test_copy_taxonomy_relationships() {
-		$taxonomies = $this->invokeMethod( $this->instance, 'get_taxonomies', array( $this->post_data ) );
-		$this->invokeMethod( $this->instance, 'copy_taxonomy_relationships', array( $this->copied_id, $taxonomies ) );
+		$taxonomies = $this->invokeMethod( $this->instance, 'get_taxonomies', [ $this->post_data ] );
+		$this->invokeMethod( $this->instance, 'copy_taxonomy_relationships', [ $this->copied_id, $taxonomies ] );
 
 		$this->assertEquals(
 			wp_get_object_terms( $this->copied_id, get_object_taxonomies( get_post( $this->copied_id ) ) ),
@@ -272,7 +274,7 @@ class TestPostCloner extends PostCloner_TestCase {
 		unset( $modified_post['post_modified'] );
 		unset( $modified_post['post_modified_gmt'] );
 
-		$post_data_to_check = $this->invokeMethod( $this->instance, 'clean_post', array( $original_post ) );
+		$post_data_to_check = $this->invokeMethod( $this->instance, 'clean_post', [ $original_post ] );
 
 		// Check that the array matches the modified one perfectly.
 		$this->assertEquals( $modified_post, $post_data_to_check );

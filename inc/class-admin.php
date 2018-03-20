@@ -33,7 +33,7 @@ final class Admin {
 	 * Run hooks that the class relies on.
 	 */
 	public function hooks() {
-		$this->definitions	= $this->plugin->get_definitions();
+		$this->definitions = $this->plugin->get_definitions();
 
 		add_action( 'post_submitbox_misc_actions', [ $this, 'custom_button' ], 25 );
 		add_filter( 'post_row_actions', [ $this, 'list_row_action' ], 10, 2 );
