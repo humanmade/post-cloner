@@ -1,14 +1,13 @@
 <?php
 /**
  * Plugin Name: Post Cloner
- *
- * @package HM Post Cloner
- *
  * Description: Allows users to clone posts.
  * Version: 1.0.0
  * Text Domain: post-cloner
  * Author: Human Made Limited
  * Author URI: https://hmn.md
+ *
+ * @package HM Post Cloner
  */
 
 namespace Post_Cloner;
@@ -62,4 +61,4 @@ plugin()->set_definitions(
 
 // Register hooks.
 plugin()->register_hooks( new Admin() )
-        ->register_hooks( new Rewrites() );
+		->register_hooks( new Rewrites() );

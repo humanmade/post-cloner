@@ -30,4 +30,9 @@
     <rule ref="WordPress.NamingConventions.ValidVariableName.NotSnakeCase">
         <exclude-pattern>tests/bootstrap.php</exclude-pattern>
     </rule>
+
+    <!-- Ignore short comment rule in plugin main file due to WP docblock reqs. -->
+    <rule ref="Generic.Commenting.DocComment.MissingShort">
+        <exclude-pattern>post-cloner.php</exclude-pattern>
+    </rule>
 </ruleset>

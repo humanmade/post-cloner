@@ -142,7 +142,7 @@ final class Admin {
 	 * the post and redirects to the new edit page.
 	 */
 	public function clone_post() {
-		$pid   = ( isset( $_GET['clone_post_id'] ) ) ? absint( $_GET['clone_post_id'] ) : '' ;
+		$pid   = ( isset( $_GET['clone_post_id'] ) ) ? absint( $_GET['clone_post_id'] ) : '';
 		$nonce = ( isset( $_GET['clone_post'] ) ) ? sanitize_text_field( wp_unslash( $_GET['clone_post'] ) ) : '';
 
 		// Missing post ID or nonce - this is not our request.
@@ -192,8 +192,8 @@ final class Admin {
 	/**
 	 * Add a post state to cloned posts to indiciate that they're cloned.
 	 *
-	 * @param array   $post_states Existing post states on post
-	 * @param WP_Post $post Post object
+	 * @param array   $post_states Existing post states on post.
+	 * @param WP_Post $post Post object.
 	 * @return array (Potentially) modified post states
 	 */
 	public function post_state( $post_states, $post = null ) {
