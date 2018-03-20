@@ -43,9 +43,15 @@ class TestPostClonerUtilities extends PostCloner_TestCase {
 	 * @param WP_UnitTest_Factory $factory WP factory for creating objects.
 	 */
 	public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-		self::$editor_id = $factory->user->create( [ 'role' => 'editor' ] );
-		self::$admin_id = $factory->user->create( [ 'role' => 'administrator' ] );
-		self::$subscriber_id = $factory->user->create( [ 'role' => 'subscriber' ] );
+		self::$editor_id = $factory->user->create( [
+			'role' => 'editor',
+		] );
+		self::$admin_id = $factory->user->create( [
+			'role' => 'administrator',
+		] );
+		self::$subscriber_id = $factory->user->create( [
+			'role' => 'subscriber',
+		] );
 	}
 
 	/**

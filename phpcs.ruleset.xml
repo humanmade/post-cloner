@@ -18,7 +18,10 @@
     <rule ref="WordPress-Docs" />
 
     <!-- Add VIP-specific rules -->
-    <rule ref="WordPress-VIP" />
+    <rule ref="WordPress-VIP">
+        <!-- Don't warn about usages of super globals -->
+        <exclude name="WordPress.VIP.SuperGlobalInputUsage" />
+    </rule>
 
     <!-- Ignore test file naming issues. -->
     <rule ref="WordPress.Files.FileName.InvalidClassFileName">
