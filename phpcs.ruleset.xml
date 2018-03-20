@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset>
+    <!-- Ignored directories -->
+    <exclude-pattern>/^.*/g</exclude-pattern>
+    <exclude-pattern>assets/*</exclude-pattern>
+
+    <!-- Use HM Coding Standards -->
+    <rule ref="vendor/humanmade/coding-standards">
+        <!-- Don't restrict namespaced functions to `namespace.php` -->
+        <exclude name="HM.Files.FunctionFileName" />
+
+        <!-- Don't restrict namespace to `inc/` directory -->
+        <exclude name="HM.Files.NamespaceDirectoryName" />
+    </rule>
+
+    <!-- Add PHPDoc rules -->
+    <rule ref="WordPress-Docs" />
+
+    <!-- Add VIP-specific rules -->
+    <rule ref="WordPress-VIP" />
+</ruleset>
