@@ -67,7 +67,7 @@ function is_post_status_clonable( $post_status ) {
 	 */
 	$statuses = apply_filters( 'post_cloner_clonable_statuses', [ 'publish', 'draft', 'pending' ] );
 
-	return ( in_array( $post_status, $statuses ), true );
+	return ( in_array( $post_status, $statuses, true ) );
 }
 
 /**
