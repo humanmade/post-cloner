@@ -67,13 +67,13 @@ class TestPostCloner extends PostCloner_TestCase {
 	private $instance = null;
 
 	/**
-	 * Initialization.
+	 * Setup data for the test suite.
+	 *
+	 * @param WP_UnitTest_Factory $factory WP factory for creating objects.
 	 */
-	function setUp() {
-		parent::setUp();
-
+	public function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
 		// Create a test post.
-		$this->post_id = self::factory()->post->create(
+		$this->post_id = $factory->post->create(
 			array(
 				'post_author'  => get_current_user_id(),
 				'post_title'   => 'My test post',
@@ -84,13 +84,13 @@ class TestPostCloner extends PostCloner_TestCase {
 			)
 		);
 
-		$this->editor_id = self::factory()->user->create( array( 'role' => 'editor' ) );
+		$this->editor_id = $factory->user->create( array( 'role' => 'editor' ) );
 
-		$this->cats = self::factory()->category->create_many( 2 );
+		$this->cats = $factory->category->create_many( 2 );
 
 		// Create a custom taxonomy.
 		register_taxonomy( 'my-custom-taxo', 'post' );
-		$this->term_ids = self::factory()->term->create_many( 3 , [
+		$this->term_ids = $factory->term->create_many( 3 , [
 			'taxonomy' => 'my-custom-taxo'
 		] );
 
@@ -113,20 +113,14 @@ class TestPostCloner extends PostCloner_TestCase {
 	/**
 	 * Clean up after a test.
 	 */
-	function tearDown() {
+	public function wpTearDownAfterClass() {
 		_unregister_taxonomy( 'my-custom-taxo' );
-		wp_delete_post( $this->post_id );
-		foreach ( $this->post_ids as $post_id ) {
-			wp_delete_post( $post_id );
-		}
-		parent::tearDown();
 	}
 
 	/**
 	 * Verifies that the cloned post is an exact copy of the original.
 	 */
 	public function test_new_post_is_exact_copy() {
-
 		// Setup proper conditions to allow for cloning
 		set_current_screen( 'edit.php' );
 		wp_set_current_user( $this->editor_id );
@@ -249,8 +243,6 @@ class TestPostCloner extends PostCloner_TestCase {
 			Post_Cloner\clean_keys( get_post_meta( $this->copied_id ), [ 'post_cloned', '_pingme', '_encloseme' ] ),
 			Post_Cloner\clean_keys( get_post_meta( $this->post_id ), [ 'post_cloned', '_pingme', '_encloseme' ] )
 		);
-
-
 	}
 
 	/**
