@@ -16,10 +16,8 @@ namespace Post_Cloner;
  * @param object|int $post Post object or ID.
  * @return bool Clonable or not.
  */
-function is_post_clonable( $post ) {
-	if ( is_int( $post ) ) {
-		$post = get_post( $post );
-	}
+function is_post_clonable( $post = null ) {
+	$post = get_post( $post );
 
 	$status  = $post->post_status;
 	$type    = $post->post_type;
