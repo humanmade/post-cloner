@@ -7,6 +7,8 @@
 
 namespace Post_Cloner;
 
+use WP_Post;
+
 /**
  * Class Admin
  */
@@ -31,9 +33,10 @@ final class Admin {
 	 * Run hooks that the class relies on.
 	 */
 	public function hooks() {
-		$this->definitions	= $this->plugin->get_definitions();
+		$this->definitions = $this->plugin->get_definitions();
 
-		add_action( 'post_submitbox_misc_actions', [ $this, 'custom_button' ], 25, 1 );
+		// Set to 25 to run after any other boxes have been added.
+		add_action( 'post_submitbox_misc_actions', [ $this, 'custom_button' ], 25 );
 		add_filter( 'post_row_actions', [ $this, 'list_row_action' ], 10, 2 );
 		add_filter( 'page_row_actions', [ $this, 'list_row_action' ], 10, 2 );
 		add_action( 'admin_init', [ $this, 'clone_post' ], 5 );
@@ -47,6 +50,7 @@ final class Admin {
 	 * Set a reference to the main plugin instance.
 	 *
 	 * @param Plugin $plugin Main plugin instance.
+	 * @return Admin
 	 */
 	public function set_plugin( $plugin ) {
 		$this->plugin = $plugin;
@@ -63,18 +67,21 @@ final class Admin {
 		if ( 'post.php' !== $page ) {
 			return;
 		}
+
 		wp_enqueue_style( 'post_cloner_styles', $this->definitions->assets_url . '/clone-posts.css', [], $this->definitions->version );
 	}
 
 	/**
 	 * Add a new button to the post publish box for cloning a post.
 	 *
-	 * @param \WP_Post $post Post object.
+	 * @param WP_Post $post Post object.
 	 * @return null
 	 */
-	public function custom_button( \WP_Post $post ) {
-		// Check if the post type is whitelisted to be clonable and we're not
-		// trying to clone a trashed/pending review post.
+	public function custom_button( WP_Post $post ) {
+		/**
+		 * Check if the post type is whitelisted to be clonable and we're not
+		 * trying to clone a trashed/pending review post.
+		 */
 		if ( ! is_post_clonable( $post ) ) {
 			return null;
 		}
@@ -101,11 +108,11 @@ final class Admin {
 	/**
 	 * Add a custom action link for cloning to the posts list row for a post.
 	 *
-	 * @param array    $actions Existing actions for the post.
-	 * @param \WP_Post $post Post object.
+	 * @param array   $actions Existing actions for the post.
+	 * @param WP_Post $post Post object.
 	 * @return array  Actions for the post row.
 	 */
-	public function list_row_action( array $actions, \WP_Post $post ) {
+	public function list_row_action( array $actions, WP_Post $post ) {
 		// Check if the post type is whitelisted to be clonable and we're not
 		// trying to clone a trashed/pending review post.
 		if ( ! is_post_clonable( $post ) ) {
@@ -136,7 +143,7 @@ final class Admin {
 	 * the post and redirects to the new edit page.
 	 */
 	public function clone_post() {
-		$pid   = ( isset( $_GET['clone_post_id'] ) ) ? absint( $_GET['clone_post_id'] ) : '' ;
+		$pid   = ( isset( $_GET['clone_post_id'] ) ) ? absint( $_GET['clone_post_id'] ) : '';
 		$nonce = ( isset( $_GET['clone_post'] ) ) ? sanitize_text_field( wp_unslash( $_GET['clone_post'] ) ) : '';
 
 		// Missing post ID or nonce - this is not our request.
@@ -186,8 +193,8 @@ final class Admin {
 	/**
 	 * Add a post state to cloned posts to indiciate that they're cloned.
 	 *
-	 * @param array   $post_states Existing post states on post
-	 * @param WP_Post $post Post object
+	 * @param array   $post_states Existing post states on post.
+	 * @param WP_Post $post Post object.
 	 * @return array (Potentially) modified post states
 	 */
 	public function post_state( $post_states, $post = null ) {

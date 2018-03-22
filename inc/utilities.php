@@ -16,16 +16,12 @@ namespace Post_Cloner;
  * @param object|int $post Post object or ID.
  * @return bool Clonable or not.
  */
-function is_post_clonable( $post ) {
-	if ( is_int( $post ) ) {
-		$status  = get_post_status( $post );
-		$type    = get_post_type( $post );
-		$post_id = $post;
-	} else {
-		$status  = $post->post_status;
-		$type    = $post->post_type;
-		$post_id = $post->ID;
-	}
+function is_post_clonable( $post = null ) {
+	$post = get_post( $post );
+
+	$status  = $post->post_status;
+	$type    = $post->post_type;
+	$post_id = $post->ID;
 
 	$clonable = ( is_post_type_clonable( $type ) && is_post_status_clonable( $status ) );
 
@@ -52,7 +48,7 @@ function is_post_type_clonable( $post_type ) {
 	 */
 	$types = apply_filters( 'post_cloner_clonable_post_types', [ 'post' ] );
 
-	return ( in_array( $post_type, $types ) );
+	return ( in_array( $post_type, $types, true ) );
 }
 
 /**
@@ -69,7 +65,7 @@ function is_post_status_clonable( $post_status ) {
 	 */
 	$statuses = apply_filters( 'post_cloner_clonable_statuses', [ 'publish', 'draft', 'pending' ] );
 
-	return ( in_array( $post_status, $statuses ) );
+	return ( in_array( $post_status, $statuses, true ) );
 }
 
 /**

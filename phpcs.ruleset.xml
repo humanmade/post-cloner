@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<ruleset>
+    <!-- Ignored directories -->
+    <exclude-pattern>/^.*/g</exclude-pattern>
+    <exclude-pattern>assets/*</exclude-pattern>
+    <exclude-pattern>vendor/*</exclude-pattern>
+
+    <!-- Use HM Coding Standards -->
+    <rule ref="vendor/humanmade/coding-standards">
+        <!-- Don't restrict namespaced functions to `namespace.php` -->
+        <exclude name="HM.Files.FunctionFileName" />
+
+        <!-- Don't restrict namespace to `inc/` directory -->
+        <exclude name="HM.Files.NamespaceDirectoryName" />
+    </rule>
+
+    <!-- Add PHPDoc rules -->
+    <rule ref="WordPress-Docs" />
+
+    <!-- Add VIP-specific rules -->
+    <rule ref="WordPress-VIP">
+        <!-- Don't warn about usages of super globals -->
+        <exclude name="WordPress.VIP.SuperGlobalInputUsage" />
+    </rule>
+
+    <!-- Ignore test file naming issues. -->
+    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <rule ref="HM.Files.ClassFileName.MismatchedName">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.NamingConventions.ValidVariableName.NotSnakeCase">
+        <exclude-pattern>tests/bootstrap.php</exclude-pattern>
+    </rule>
+
+    <!-- Ignore short comment rule in plugin main file due to WP docblock reqs. -->
+    <rule ref="Generic.Commenting.DocComment.MissingShort">
+        <exclude-pattern>post-cloner.php</exclude-pattern>
+    </rule>
+</ruleset>

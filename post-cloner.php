@@ -1,14 +1,13 @@
 <?php
 /**
  * Plugin Name: Post Cloner
- *
- * @package HM Post Cloner
- *
  * Description: Allows users to clone posts.
  * Version: 1.0.0
  * Text Domain: post-cloner
  * Author: Human Made Limited
  * Author URI: https://hmn.md
+ *
+ * @package HM Post Cloner
  */
 
 namespace Post_Cloner;
@@ -49,7 +48,7 @@ plugin();
 
 // Set our definitions for later use.
 plugin()->set_definitions(
-	(object) array(
+	(object) [
 		'basename'   => plugin_basename( __FILE__ ),
 		'directory'  => plugin_dir_path( __FILE__ ),
 		'file'       => __FILE__,
@@ -57,9 +56,9 @@ plugin()->set_definitions(
 		'url'        => plugin_dir_url( __FILE__ ),
 		'assets_url' => plugin_dir_url( __FILE__ ) . '/assets',
 		'version'    => '1.0.0',
-	)
+	]
 );
 
 // Register hooks.
 plugin()->register_hooks( new Admin() )
-        ->register_hooks( new Rewrites() );
+		->register_hooks( new Rewrites() );
