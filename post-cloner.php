@@ -54,7 +54,7 @@ plugin()->set_definitions(
 		'file'       => __FILE__,
 		'slug'       => 'post-cloner',
 		'url'        => plugin_dir_url( __FILE__ ),
-		'assets_url' => plugin_dir_url( __FILE__ ) . '/assets',
+		'assets_url' => plugin_dir_url( __FILE__ ) . 'assets',
 		'version'    => '1.0.0',
 	]
 );
