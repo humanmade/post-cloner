@@ -77,7 +77,7 @@ final class Admin {
 	 * Load up Gutenberg resources for the post edit screen.
 	 */
 	public function load_gutenberg_resources() {
-		if ( ! isset( $_GET['post'] ) ) {
+		if ( ! isset( $_GET['post'] ) ) { // WPCS: CSRF ok.
 			return;
 		}
 
