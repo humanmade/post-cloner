@@ -3,7 +3,7 @@
 /**
  * WordPress React element creation entry point.
  */
-const el = wp.element.createElement;
+var el = wp.element.createElement;
 
 /**
  * Get the content of the status filler.
@@ -35,7 +35,7 @@ function DisplayPostCloningStatus() {
 	return el(
 		wp.editPost.PluginPostStatusInfo,
 		{
-			className: 'my-post-status-info',
+			className: 'post-cloning-actions',
 		},
 		getContent()
 	);
