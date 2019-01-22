@@ -1,4 +1,5 @@
 /* global postCloner, wp */
+/* eslint no-var: off */
 
 /**
  * WordPress React element creation entry point.
