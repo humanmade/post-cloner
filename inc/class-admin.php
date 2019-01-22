@@ -44,6 +44,8 @@ final class Admin {
 		add_action( 'admin_notices', [ $this, 'clone_failed_message' ] );
 		add_filter( 'display_post_states', [ $this, 'post_state' ], 10, 2 );
 
+		// Load up editor scripts.
+		add_action( 'enqueue_block_editor_assets', [ $this, 'load_gutenberg_resources' ] );
 	}
 
 	/**
@@ -69,6 +71,47 @@ final class Admin {
 		}
 
 		wp_enqueue_style( 'post_cloner_styles', $this->definitions->assets_url . '/clone-posts.css', [], $this->definitions->version );
+	}
+
+	/**
+	 * Load up Gutenberg resources for the post edit screen.
+	 */
+	public function load_gutenberg_resources() {
+		if ( ! isset( $_GET['post'] ) ) { // WPCS: CSRF ok.
+			return;
+		}
+
+		$post_id = absint( $_GET['post'] );
+
+		// No need for our resources if this post type isn't clonable at all.
+		if ( ! is_post_type_clonable( get_post_type( $post_id ) ) ) {
+			return;
+		}
+
+		// If in Gutenberg context, our custom CSS is no longer useful.
+		wp_dequeue_style( 'post_cloner_styles' );
+
+		// Enqueue our script.
+		wp_enqueue_script(
+			'post-cloner-gutenberg',
+			$this->definitions->assets_url . '/js/gutenberg.js',
+			[ 'wp-blocks', 'wp-element', 'wp-url', 'wp-components', 'wp-editor' ],
+			$this->definitions->version
+		);
+
+		$post_type = get_post_type_object( get_post( $post_id )->post_type );
+
+		// Load up data about said post.
+		wp_localize_script(
+			'post-cloner-gutenberg',
+			'postCloner',
+			[
+				'userCanClone'   => can_user_clone(),
+				'postIsClonable' => is_post_clonable( $post_id ),
+				'cloneLink'      => $this->clone_post_link( $post_id ),
+				'postTypelabels' => $post_type->labels,
+			]
+		);
 	}
 
 	/**
