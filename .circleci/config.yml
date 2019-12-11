@@ -18,7 +18,7 @@ jobs:
       - run:
           name: "Install MySQL"
           command: |
-            sudo apt-get install mysql-server
+            sudo apt-get update && sudo apt-get install mysql-server
             sudo service mysql status || sudo service mysql start
             sudo docker-php-ext-install mysqli
 
