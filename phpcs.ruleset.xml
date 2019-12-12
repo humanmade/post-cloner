@@ -27,10 +27,21 @@
     <rule ref="WordPress.Files.FileName.InvalidClassFileName">
         <exclude-pattern>tests/*</exclude-pattern>
     </rule>
+
     <rule ref="HM.Files.ClassFileName.MismatchedName">
         <exclude-pattern>tests/*</exclude-pattern>
     </rule>
+
     <rule ref="WordPress.NamingConventions.ValidVariableName.NotSnakeCase">
+        <exclude-pattern>tests/bootstrap.php</exclude-pattern>
+    </rule>
+
+    <!-- The test bootstrap and main plugin files side-effects by definitions -->
+    <rule ref="HM.Classes.OnlyClassInFile.FoundMultipleDeclarations">
+        <exclude-pattern>tests/bootstrap.php</exclude-pattern>
+    </rule>
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <exclude-pattern>post-cloner.php</exclude-pattern>
         <exclude-pattern>tests/bootstrap.php</exclude-pattern>
     </rule>
 
