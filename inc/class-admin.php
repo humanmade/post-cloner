@@ -168,12 +168,15 @@ final class Admin {
 		}
 
 		// Add our custom action.
-		$actions = array_merge( $actions, [
-			'clone' => sprintf( '<a href="%1$s">%2$s</a>',
-				esc_url( $this->clone_post_link( $post->ID ) ),
-				esc_html__( 'Clone', 'post-cloner' )
-			),
-		] );
+		$actions = array_merge(
+			$actions,
+			[
+				'clone' => sprintf( '<a href="%1$s">%2$s</a>',
+					esc_url( $this->clone_post_link( $post->ID ) ),
+					esc_html__( 'Clone', 'post-cloner' )
+				),
+			]
+		);
 
 		return $actions;
 	}
