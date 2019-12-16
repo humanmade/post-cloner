@@ -183,6 +183,13 @@ class Cloner {
 				add_post_meta( $post_id, $key, $value );
 			}
 		}
+
+		/**
+		 * Fires when post meta has been copied to cloned post.
+		 *
+		 * @param array $post_id Post ID of cloned post.
+		 */
+		do_action( 'post_cloner_after_meta_data_copy', $post_id );
 	}
 
 	/**
