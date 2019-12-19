@@ -214,12 +214,12 @@ final class Admin {
 
 		if ( ! is_wp_error( $post_id ) ) {
 			$edit_link = admin_url( 'post.php?post=' . absint( $post_id ) . '&action=edit' );
-			wp_redirect( $edit_link );
+			wp_safe_redirect( $edit_link );
 			exit;
 		} else {
 			// Get the old post URL and add a failed attribute.
 			$link = admin_url( 'post.php?post=' . absint( $pid ) . '&action=edit&clone_failed=failed' );
-			wp_redirect( $link );
+			wp_safe_redirect( $link );
 			exit;
 		}
 	}
