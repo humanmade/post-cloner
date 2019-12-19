@@ -189,17 +189,19 @@ final class Admin {
 	 * the post and redirects to the new edit page.
 	 */
 	public function clone_post() {
-		$pid   = ( isset( $_GET['clone_post_id'] ) ) ? absint( $_GET['clone_post_id'] ) : '';
-		$nonce = ( isset( $_GET['clone_post'] ) ) ? sanitize_text_field( wp_unslash( $_GET['clone_post'] ) ) : '';
+		// Nonce exists but cannot be verified - bail.
+		if (
+			! isset( $_GET['clone_post'] )
+			|| ! wp_verify_nonce( sanitize_key( $_GET['clone_post'] ), 'clone_post' )
+		) {
+			wp_die( esc_html__( 'Your session has expired. Please try again.', 'post-cloner' ) );
+		}
+
+		$pid = ( isset( $_GET['clone_post_id'] ) ) ? absint( $_GET['clone_post_id'] ) : '';
 
 		// Missing post ID or nonce - this is not our request.
 		if ( empty( $nonce ) || empty( $pid ) ) {
 			return null;
-		}
-
-		// Nonce exists but cannot be verified - bail.
-		if ( ! wp_verify_nonce( $nonce, 'clone_post' ) ) {
-			wp_die( esc_html__( 'Your session has expired. Please try again.', 'post-cloner' ) );
 		}
 
 		// User is not allowed to clone posts - bail.
@@ -226,6 +228,8 @@ final class Admin {
 	 * Display an error notice if the clone failed.
 	 */
 	public function clone_failed_message() {
+		// There is no potential for CSRF as we are doing a strict string comparison only and are printing our own message.
+		// phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
 		if ( ! isset( $_GET['clone_failed'] ) || 'failed' !== $_GET['clone_failed'] ) {
 			return false;
 		}
