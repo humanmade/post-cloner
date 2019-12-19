@@ -1,41 +1,63 @@
 # PHP CircleCI 2.0 configuration file
-
 version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/php:7.0-apache-node-browsers
-        environment:
-          plugin_slug: post-cloner
-          plugin_dir: /wordpress/wp-content/plugins/$plugin_slug
-          plugin_tests_dir: /home/ubuntu/wordpress-develop/src/wp-content/plugins/$plugin_slug/tests
+      - image: circleci/php:7.2-stretch-node-browsers
 
     steps:
+      # Prepare for later installations
+      - run:
+          name: "Update apt"
+          command: sudo apt-get update
+
+      - run:
+          name: "Install svn for WordPress"
+          command: sudo apt-get install subversion
+
+      - run:
+          name: "Install MySQL"
+          command: |
+            sudo apt-get update && sudo apt-get install mysql-server
+            sudo service mysql status || sudo service mysql start
+            sudo docker-php-ext-install mysqli
+
+      # Install phpcs
+      - run:
+          name: "Install phpcs"
+          command: |
+            mkdir ~/php-codesniffer && curl -L https://github.com/squizlabs/PHP_CodeSniffer/archive/master.tar.gz | tar xz --strip-components=1 -C ~/php-codesniffer
+
+      # Install phpunit
+      - run:
+          name: "Install PHPUnit"
+          command: |
+            sudo wget -O /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-6.phar
+            sudo chmod +x /usr/local/bin/phpunit
+
+      # Check out the code.
       - checkout
-      # No password is required for the MySQL user `ubuntu`
-      - run: mysql -u ubuntu -e "CREATE DATABASE wordpress"
 
-      # Use cURL to fetch WP-CLI
-      - run: curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+      - run:
+          name: "Prepare test database"
+          command: |
+            sudo mysql -uroot mysql -e "UPDATE user SET plugin='mysql_native_password' WHERE User='root'; FLUSH PRIVILEGES"
+            bash .bin/install-wp-tests.sh "wp_tests" "root" "" "127.0.0.1"
 
-      # Make sure WP-CLI is executable
-      - run: chmod +x wp-cli.phar
+      - run:
+          name: "Run PHPUnit"
+          command: |
+            mkdir -p ~/phpunit
+            phpunit --log-junit ~/phpunit/junit.xml
 
-      # Download WordPress into `wordpress` directory
-      - run: ./wp-cli.phar core download --allow-root --path=wordpress
+      # Teardown
+      - store_test_results:
+          path: ~/phpunit
+      - store_artifacts:
+          path: ~/phpunit
 
-      # move plugin into tests/src
-      - run: mv $plugin_loc $plugin_dir;
-
-      # And use WP-CLI to activate it
-      - run: ./wp-cli.phar plugin activate $plugin_slug --path=wordpress
-
-      # setup phpunit
-      - run: wget https://phar.phpunit.de/phpunit.phar && chmod +x phpunit.phar && mv phpunit.phar /home/ubuntu/.phpenv/shims/phpunit
-
-      # This is just for us to see that the WP Pusher plugin was actually installed and is active
-      - run: ./wp-cli.phar plugin list --path=wordpress
-
-      # comment out the below line to run a code coverage report.
-      - run: cd $plugin_tests_dir; cd ..; pwd; ls; phpunit
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
