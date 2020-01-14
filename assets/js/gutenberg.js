@@ -1,6 +1,5 @@
 /* global postCloner, wp */
 /* eslint no-var: off */
-const { __, sprintf } = wp.i18n;
 
 /**
  * WordPress React element creation entry point.
@@ -20,7 +19,7 @@ function getContent() {
 			href: postCloner.cloneLink,
 		},
 		// translators: %s Post name.
-		sprintf( __( 'Clone %s', 'post-cloner' ), postCloner.postTypelabels.singular_name )
+		wp.i18n.sprintf( wp.i18n.__( 'Clone %s', 'post-cloner' ), postCloner.postTypelabels.singular_name )
 	);
 }
 
