@@ -1,5 +1,6 @@
 /* global postCloner, wp */
 /* eslint no-var: off */
+const { __, sprintf } = wp.i18n;
 
 /**
  * WordPress React element creation entry point.
@@ -18,7 +19,8 @@ function getContent() {
 			className: 'components-button is-button is-large is-default',
 			href: postCloner.cloneLink,
 		},
-		wp.i18n.__( 'Clone ' + postCloner.postTypelabels.singular_name )
+		// translators: %s Post name.
+		sprintf( __( 'Clone %s', 'post-cloner' ), postCloner.postTypelabels.singular_name )
 	);
 }
 

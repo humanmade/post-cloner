@@ -95,11 +95,13 @@ final class Admin {
 		wp_enqueue_script(
 			'post-cloner-gutenberg',
 			$this->definitions->assets_url . '/js/gutenberg.js',
-			[ 'wp-blocks', 'wp-element', 'wp-url', 'wp-components', 'wp-editor' ],
+			[ 'wp-blocks', 'wp-element', 'wp-url', 'wp-components', 'wp-editor', 'wp-i18n' ],
 			$this->definitions->version
 		);
 
 		$post_type = get_post_type_object( get_post( $post_id )->post_type );
+
+		wp_set_script_translations( 'post-cloner-gutenberg', 'post-cloner' );
 
 		// Load up data about said post.
 		wp_localize_script(
