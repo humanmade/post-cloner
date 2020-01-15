@@ -18,7 +18,8 @@ function getContent() {
 			className: 'components-button is-button is-large is-default',
 			href: postCloner.cloneLink,
 		},
-		wp.i18n.__( 'Clone ' + postCloner.postTypelabels.singular_name )
+		// translators: %s Post name.
+		wp.i18n.sprintf( wp.i18n.__( 'Clone %s', 'post-cloner' ), postCloner.postTypelabels.singular_name )
 	);
 }
 
