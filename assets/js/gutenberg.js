@@ -31,7 +31,7 @@ function getContent() {
 function DisplayPostCloningStatus() {
 	// If user cannot clone, or post is not clonable, do nothing.
 	if ( ! postCloner.userCanClone || ! postCloner.postIsClonable ) {
-		return;
+		return null;
 	}
 
 	return el(
