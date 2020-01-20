@@ -26,7 +26,7 @@ function getContent() {
 /**
  * Display a custom status fill element at the bottom of the G'berg post status box.
  *
- * @returns {Function} createElement instance.
+ * @returns {Function|null} createElement instance.
  */
 function DisplayPostCloningStatus() {
 	// If user cannot clone, or post is not clonable, do nothing.
