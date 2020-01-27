@@ -90,9 +90,12 @@ class TestPostCloner extends PostCloner_TestCase {
 
 		// Create a custom taxonomy.
 		register_taxonomy( 'my-custom-taxo', 'post' );
-		self::$term_ids = $factory->term->create_many( 3, [
-			'taxonomy' => 'my-custom-taxo',
-		] );
+		self::$term_ids = $factory->term->create_many(
+			3,
+			[
+				'taxonomy' => 'my-custom-taxo',
+			]
+		);
 
 		wp_set_object_terms( self::$post_id, self::$cats, 'category' );
 		wp_set_object_terms( self::$post_id, self::$term_ids, 'my-custom-taxo' );
