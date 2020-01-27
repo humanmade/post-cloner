@@ -19,3 +19,10 @@
 </table>
 
 This is a simple plugin that adds a button to the post edit screen that allows a user to clone a post with its metadata and terms to a new, identical post.
+
+### Local Development
+
+PHPCS and unit tests must be run and pass before submitting code.
+
+Running PHPCS:
+`vendor/bin/phpcs --standard=phpcs.ruleset.xml .`
