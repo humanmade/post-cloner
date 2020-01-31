@@ -1,11 +1,7 @@
 {
-  "name": "Post Cloner",
-  "version": "1.1.0",
+  "name": "humanmade/post-cloner",
   "type": "wordpress-plugin",
   "license": "GPL-3.0-or-later",
-  "config": {
-    "autoloader-suffix": "DontChange"
-  },
   "require-dev": {
     "phpunit/phpunit": "^5.7",
     "humanmade/coding-standards": "0.7.0"
