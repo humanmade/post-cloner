@@ -193,8 +193,8 @@ final class Admin {
 	public function clone_post() {
 		// Nonce exists but cannot be verified - bail.
 		if (
-			! isset( $_GET['clone_post'] )
-			|| ! wp_verify_nonce( sanitize_key( $_GET['clone_post'] ), 'clone_post' )
+			isset( $_GET['clone_post'] )
+			&& ! wp_verify_nonce( sanitize_key( $_GET['clone_post'] ), 'clone_post' )
 		) {
 			wp_die( esc_html__( 'Your session has expired. Please try again.', 'post-cloner' ) );
 		}
