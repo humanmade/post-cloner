@@ -193,14 +193,15 @@ final class Admin {
 	public function clone_post() {
 		// Nonce exists but cannot be verified - bail.
 		if (
-			! isset( $_GET['clone_post'] )
-			|| ! wp_verify_nonce( sanitize_key( $_GET['clone_post'] ), 'clone_post' )
+			isset( $_GET['clone_post'] )
+			&& ! wp_verify_nonce( sanitize_key( $_GET['clone_post'] ), 'clone_post' )
 		) {
 			wp_die( esc_html__( 'Your session has expired. Please try again.', 'post-cloner' ) );
 		}
 
 		$pid = ( isset( $_GET['clone_post_id'] ) ) ? absint( $_GET['clone_post_id'] ) : '';
-
+		$nonce = ( isset( $_GET['clone_post'] ) ) ? sanitize_text_field( wp_unslash( $_GET['clone_post'] ) ) : '';
+		
 		// Missing post ID or nonce - this is not our request.
 		if ( empty( $nonce ) || empty( $pid ) ) {
 			return null;
