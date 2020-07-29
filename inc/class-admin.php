@@ -201,7 +201,7 @@ final class Admin {
 
 		$pid = ( isset( $_GET['clone_post_id'] ) ) ? absint( $_GET['clone_post_id'] ) : '';
 		$nonce = ( isset( $_GET['clone_post'] ) ) ? sanitize_text_field( wp_unslash( $_GET['clone_post'] ) ) : '';
-		
+
 		// Missing post ID or nonce - this is not our request.
 		if ( empty( $nonce ) || empty( $pid ) ) {
 			return null;
