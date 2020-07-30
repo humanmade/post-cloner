@@ -2,10 +2,10 @@
 /**
  * Plugin Name: Post Cloner
  * Description: Allows users to clone posts.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Text Domain: post-cloner
  * Author: Human Made Limited
- * Author URI: https://hmn.md
+ * Author URI: https://humanmade.com
  *
  * @package HM Post Cloner
  */
@@ -54,7 +54,7 @@ plugin()->set_definitions(
 		'slug'       => 'post-cloner',
 		'url'        => plugin_dir_url( __FILE__ ),
 		'assets_url' => plugin_dir_url( __FILE__ ) . 'assets',
-		'version'    => '1.1.0',
+		'version'    => '1.1.1',
 	]
 );
 
