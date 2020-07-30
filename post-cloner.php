@@ -42,7 +42,6 @@ function plugin() {
 	return $instance;
 }
 
-
 // Load the plugin.
 plugin();
 
