@@ -47,9 +47,9 @@ class Cloner {
 		/**
 		 * Parent that the new post should have.
 		 *
-		 * @param int $parent Parent - defaults to original post ID.
+		 * @param int $parent Parent - defaults to original post parent ID.
 		 */
-		$parent = apply_filters( 'post_cloner_cloned_parent', $original_post['ID'] );
+		$parent = apply_filters( 'post_cloner_cloned_parent', $original_post['post_parent'] );
 
 		// Set the post_parent.
 		$duplicate_post['post_parent'] = $parent;
