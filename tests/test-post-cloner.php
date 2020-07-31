@@ -149,7 +149,6 @@ class TestPostCloner extends PostCloner_TestCase {
 			'post_modified',
 			'post_modified_gmt',
 			'post_status',       // New post is always draft.
-			'post_parent',       // New post now has original post as parent.
 			'ancestors',         // See above note.
 		];
 
