@@ -1,5 +1,6 @@
 {
   "name": "humanmade/post-cloner",
+  "description": "Post cloning for WordPress",
   "type": "wordpress-plugin",
   "license": "GPL-3.0-or-later",
   "require-dev": {
