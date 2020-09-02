@@ -15,7 +15,8 @@ function getContent() {
 	return el(
 		'a',
 		{
-			className: 'components-button is-button is-large is-default',
+			className: 'components-button is-tertiary',
+			style: { marginLeft: '-6px' },
 			href: postCloner.cloneLink,
 		},
 		// translators: %s Post name.
