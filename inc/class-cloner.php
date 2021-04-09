@@ -78,6 +78,13 @@ class Cloner {
 		// Add cloned to new post status to target for rewrites.
 		$duplicate_post['post_name'] = $original_post['post_name'] . $name_append;
 
+		/**
+		 * Filters the post data just before the duplicate is created.
+		 *
+		 * @param array $duplicate_post Duplicated post array data.
+		 */
+		$duplicate_post = apply_filters( 'post_cloner_duplicate_post', $duplicate_post );
+
 		// Make the new post.
 		$new_post_id = $this->create_copy( $duplicate_post );
 
