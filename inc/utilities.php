@@ -7,6 +7,8 @@
 
 namespace Post_Cloner;
 
+use WP_Post;
+
 /**
  * Combine post_type and post_status checks into one.
  *
@@ -128,4 +130,16 @@ function clean_keys( array $array, array $keys, array $patterns = [] ) {
 	}
 
 	return $array;
+}
+
+/**
+ * Should we strip the 'cloned' string from the URL.
+ *
+ * @param string $permalink The post permalink that's being altered.
+ * @param WP_Post $post     The WP_Post object.
+ *
+ * @return bool Whether to strip '-cloned' from the permalink or to leave it.
+ */
+function strip_cloned( string $permalink, WP_Post $post ) : bool {
+	return apply_filters( 'post_cloner_strip_cloned', false, $permalink, $post );
 }
