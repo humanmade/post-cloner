@@ -42,7 +42,7 @@ final class Rewrites {
 	 * @return string Potentially modified permalink
 	 */
 	public function strip_cloned_from_url( $permalink, $post ) {
-		if ( is_post_cloned( $post->ID ) ) {
+		if ( is_post_cloned( $post->ID ) && strip_cloned( $permalink, $post ) ) {
 			$permalink = preg_replace( '/(' . $this->search_string . ')\/$/', '', trailingslashit( $permalink ), 1 );
 		}
 
