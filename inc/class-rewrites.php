@@ -57,7 +57,7 @@ final class Rewrites {
 	 * @return string Potentially modified permalink.
 	 */
 	public function strip_cloned_from_url_preview( $output, $post_id ) {
-		if ( is_post_cloned( $post_id ) ) {
+		if ( is_post_cloned( $post_id ) && strip_cloned( $output, get_post( $post_id ) ) ) {
 			$output = preg_replace( '/(' . $this->search_string . ')/', '', $output, 1 );
 		}
 
